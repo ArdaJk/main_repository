@@ -68,7 +68,8 @@ public class Level implements Map {
 
     @Override
     public boolean inside(Position position) {
-        return true;
+        return position.x() >= 0 && position.x() < width &&
+                position.y() >= 0 && position.y() < height;
     }
 
 
