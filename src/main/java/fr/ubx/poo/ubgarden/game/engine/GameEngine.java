@@ -6,11 +6,9 @@
 
     import fr.ubx.poo.ubgarden.game.Direction;
     import fr.ubx.poo.ubgarden.game.Game;
+    import fr.ubx.poo.ubgarden.game.go.bonus.Carrot;
     import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
-    import fr.ubx.poo.ubgarden.game.view.ImageResource;
-    import fr.ubx.poo.ubgarden.game.view.Sprite;
-    import fr.ubx.poo.ubgarden.game.view.SpriteFactory;
-    import fr.ubx.poo.ubgarden.game.view.SpriteGardener;
+    import fr.ubx.poo.ubgarden.game.view.*;
     import javafx.animation.AnimationTimer;
     import javafx.application.Platform;
     import javafx.scene.Group;

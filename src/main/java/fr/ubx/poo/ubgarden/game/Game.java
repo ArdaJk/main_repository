@@ -8,6 +8,7 @@ public class Game {
     private final Configuration configuration;
     private final World world;
     private final Gardener gardener;
+
     private boolean switchLevelRequested = false;
     private int switchLevel;
     public Game(World world, Configuration configuration, Position gardenerPosition) {
