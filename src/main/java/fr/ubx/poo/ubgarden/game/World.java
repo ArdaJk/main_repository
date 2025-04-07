@@ -9,7 +9,6 @@ public class World {
         if (levels < 1) throw new IllegalArgumentException("Levels must be greater than 1");
     }
 
-
     public int currentLevel() {
         return currentLevel;
     }

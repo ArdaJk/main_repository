@@ -6,12 +6,12 @@ import fr.ubx.poo.ubgarden.game.Position;
 import fr.ubx.poo.ubgarden.game.go.GameObject;
 import fr.ubx.poo.ubgarden.game.go.Movable;
 
-public class Wasp extends GameObject implements Movable {
-    public Wasp(Game game, Position position) {
+public class Hornet extends GameObject implements Movable {
+    public Hornet(Game game, Position position) {
         super(game, position);
     }
 
-    public Wasp(Position position) {
+    public Hornet(Position position) {
         super(position);
     }
 

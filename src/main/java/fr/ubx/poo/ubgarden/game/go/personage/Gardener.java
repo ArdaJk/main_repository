@@ -21,7 +21,6 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     private boolean moveRequested = false;
 
     public Gardener(Game game, Position position) {
-
         super(game, position);
         this.direction = Direction.DOWN;
         this.energy = game.configuration().gardenerEnergy();
