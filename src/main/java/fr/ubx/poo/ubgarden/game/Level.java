@@ -1,14 +1,13 @@
 package fr.ubx.poo.ubgarden.game;
 
 import fr.ubx.poo.ubgarden.game.go.bonus.CollectCarrot;
-import fr.ubx.poo.ubgarden.game.go.bonus.DiseaseDuration;
+import fr.ubx.poo.ubgarden.game.go.bonus.PoisonedApple;
 import fr.ubx.poo.ubgarden.game.go.bonus.EnergyBoost;
 import fr.ubx.poo.ubgarden.game.go.bonus.InsecticideBomb;
 import fr.ubx.poo.ubgarden.game.go.decor.*;
 import fr.ubx.poo.ubgarden.game.go.decor.ground.Grass;
 import fr.ubx.poo.ubgarden.game.go.decor.Hedgehog;
 import fr.ubx.poo.ubgarden.game.go.decor.ground.Land;
-import fr.ubx.poo.ubgarden.game.go.personage.Wasp;
 import fr.ubx.poo.ubgarden.game.launcher.MapEntity;
 import fr.ubx.poo.ubgarden.game.launcher.MapLevel;
 
@@ -54,7 +53,7 @@ public class Level implements Map {
                         break;
                     case PoisonedApple:
                         Decor grassPoisonedApple = new Grass(position);
-                        grassPoisonedApple.setBonus(new DiseaseDuration(position, grassPoisonedApple));
+                        grassPoisonedApple.setBonus(new PoisonedApple(position, grassPoisonedApple));
                         decors.put(position, grassPoisonedApple);
                         break;
                     case InsecticideBomb:

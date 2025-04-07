@@ -13,6 +13,5 @@ public interface WalkVisitor {
     default boolean canWalkOn(Decor decor) {
         return !(decor instanceof Tree) && !(decor instanceof NestWasp) && !(decor instanceof NestHornet) && !(decor instanceof Flowers);
     }
-
     // TODO
 }

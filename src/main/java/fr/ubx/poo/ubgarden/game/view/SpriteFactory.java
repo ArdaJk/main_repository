@@ -6,7 +6,7 @@ package fr.ubx.poo.ubgarden.game.view;
 
 import fr.ubx.poo.ubgarden.game.go.GameObject;
 import fr.ubx.poo.ubgarden.game.go.bonus.CollectCarrot;
-import fr.ubx.poo.ubgarden.game.go.bonus.DiseaseDuration;
+import fr.ubx.poo.ubgarden.game.go.bonus.PoisonedApple;
 import fr.ubx.poo.ubgarden.game.go.bonus.EnergyBoost;
 import fr.ubx.poo.ubgarden.game.go.bonus.InsecticideBomb;
 import fr.ubx.poo.ubgarden.game.go.decor.*;
@@ -32,7 +32,7 @@ public final class SpriteFactory {
             return new Sprite(layer, factory.get(APPLE), gameObject);
         if (gameObject instanceof CollectCarrot)
             return new Sprite(layer, factory.get(CARROTS), gameObject);
-        if (gameObject instanceof DiseaseDuration)
+        if (gameObject instanceof PoisonedApple)
             return new Sprite(layer, factory.get(POISONED_APPLE),gameObject);
         if (gameObject instanceof Flowers)
             return new Sprite(layer, factory.get(FLOWERS), gameObject);

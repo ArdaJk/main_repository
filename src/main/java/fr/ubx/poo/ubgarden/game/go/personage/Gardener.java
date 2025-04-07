@@ -11,33 +11,54 @@ import fr.ubx.poo.ubgarden.game.go.GameObject;
 import fr.ubx.poo.ubgarden.game.go.Movable;
 import fr.ubx.poo.ubgarden.game.go.PickupVisitor;
 import fr.ubx.poo.ubgarden.game.go.WalkVisitor;
+import fr.ubx.poo.ubgarden.game.go.bonus.Bonus;
+import fr.ubx.poo.ubgarden.game.go.bonus.PoisonedApple;
 import fr.ubx.poo.ubgarden.game.go.bonus.EnergyBoost;
-import fr.ubx.poo.ubgarden.game.go.decor.Decor;
+import fr.ubx.poo.ubgarden.game.go.decor.*;
+import fr.ubx.poo.ubgarden.game.go.decor.ground.Grass;
+import fr.ubx.poo.ubgarden.game.go.decor.ground.Land;
+import fr.ubx.poo.ubgarden.game.launcher.GameLauncher;
 
 public class Gardener extends GameObject implements Movable, PickupVisitor, WalkVisitor {
 
-    private final int energy;
+    private int energy;
+    //diseaseLevel is variable so we should create an attribute for it in order to change its value
+    private int diseaseLevel;
     private Direction direction;
     private boolean moveRequested = false;
+
+    private boolean diseased = false;
+    private long diseaseStartTime = 0;
 
     public Gardener(Game game, Position position) {
         super(game, position);
         this.direction = Direction.DOWN;
         this.energy = game.configuration().gardenerEnergy();
+        this.diseaseLevel = game.configuration().diseaseLevel();
+    }
+
+    //Helper function which we'll use for the poisoned apple
+    private void diseaseStarted() {
+        diseased = true;
+        diseaseStartTime = System.currentTimeMillis();
+        diseaseLevel++;
     }
 
     @Override
-    public void pickUp(EnergyBoost energyBoost) {
-// TODO
-        System.out.println("I am taking the boost, I should do something ...");
-
+    public void pickUp(Bonus bonus) {
+        if (bonus instanceof EnergyBoost) {
+            energy = energy + game.configuration().energyBoost();
+            System.out.println("Energy boosted picked up!");
+        }
+        if (bonus instanceof PoisonedApple) {
+            diseaseStarted();
+            System.out.println("Poisoned apple eaten!");
+        }
     }
-
 
     public int getEnergy() {
         return this.energy;
     }
-
 
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
@@ -50,7 +71,6 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     @Override
     public final boolean canMove(Direction direction) {
             Position nextPos = direction.nextPosition(getPosition());
-
             if (!game.world().getGrid().inside(nextPos)) {
                 return false;
             }
@@ -74,9 +94,21 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     }
 
     public void update(long now) {
+        if (diseased && (System.currentTimeMillis() - diseaseStartTime >= game.configuration().diseaseDuration())) {
+            diseased = false;
+            diseaseLevel--;
+        }
+        System.out.println(diseaseLevel);
         if (moveRequested) {
             if (canMove(direction)) {
+                Position nextPos = direction.nextPosition(getPosition());
+                Decor ground = game.world().getGrid().get(nextPos);
                 move(direction);
+                if (ground instanceof Grass) {
+                    energy = energy - game.configuration().diseaseLevel();
+                } else if (ground instanceof Land) {
+                    energy = energy - 2*game.configuration().diseaseLevel();
+                }
             }
         }
         moveRequested = false;
@@ -92,6 +124,4 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     public Direction getDirection() {
         return direction;
     }
-
-
 }
