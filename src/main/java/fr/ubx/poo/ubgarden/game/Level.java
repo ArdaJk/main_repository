@@ -2,6 +2,7 @@ package fr.ubx.poo.ubgarden.game;
 
 import fr.ubx.poo.ubgarden.game.go.bonus.EnergyBoost;
 import fr.ubx.poo.ubgarden.game.go.decor.Decor;
+import fr.ubx.poo.ubgarden.game.go.decor.Flowers;
 import fr.ubx.poo.ubgarden.game.go.decor.Tree;
 import fr.ubx.poo.ubgarden.game.go.decor.ground.Grass;
 import fr.ubx.poo.ubgarden.game.launcher.MapEntity;
@@ -41,6 +42,9 @@ public class Level implements Map {
                         decors.put(position, grass);
                         break;
                     }
+                    case Flowers:
+                        decors.put(position, new Flowers(position));
+                        break;
                     default:
                         throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
                 }
