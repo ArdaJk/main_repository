@@ -5,11 +5,15 @@ public enum MapEntity {
     Apple('+'),
     Carrots('F'),
     Flowers('O'),
+    InsecticideBomb('B'),
+
     Grass('G'),
     Land('L'),
     Tree('T'),
 
     Gardener('P'),
+    Wasp('W'),
+
     Hedgehog('H'),
     DoorPrevOpened('<'),
     DoorNextOpened('>'),

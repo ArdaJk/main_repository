@@ -4,8 +4,8 @@ import fr.ubx.poo.ubgarden.game.Position;
 import fr.ubx.poo.ubgarden.game.go.Pickupable;
 import fr.ubx.poo.ubgarden.game.go.decor.Decor;
 
-public class Carrot extends Bonus implements Pickupable {
-    public Carrot(Position position, Decor decor) {
+public class CollectCarrot extends Bonus {
+    public CollectCarrot(Position position, Decor decor) {
         super(position, decor);
     }
 }

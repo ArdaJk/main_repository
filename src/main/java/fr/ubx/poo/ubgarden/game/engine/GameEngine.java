@@ -6,7 +6,6 @@
 
     import fr.ubx.poo.ubgarden.game.Direction;
     import fr.ubx.poo.ubgarden.game.Game;
-    import fr.ubx.poo.ubgarden.game.go.bonus.Carrot;
     import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
     import fr.ubx.poo.ubgarden.game.view.*;
     import javafx.animation.AnimationTimer;
