@@ -98,7 +98,6 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
             diseased = false;
             diseaseLevel--;
         }
-        System.out.println(diseaseLevel);
         if (moveRequested) {
             if (canMove(direction)) {
                 Position nextPos = direction.nextPosition(getPosition());
