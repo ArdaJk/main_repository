@@ -12,6 +12,7 @@ import fr.ubx.poo.ubgarden.game.go.Movable;
 import fr.ubx.poo.ubgarden.game.go.PickupVisitor;
 import fr.ubx.poo.ubgarden.game.go.WalkVisitor;
 import fr.ubx.poo.ubgarden.game.go.bonus.Bonus;
+import fr.ubx.poo.ubgarden.game.go.bonus.InsecticideBomb;
 import fr.ubx.poo.ubgarden.game.go.bonus.PoisonedApple;
 import fr.ubx.poo.ubgarden.game.go.bonus.EnergyBoost;
 import fr.ubx.poo.ubgarden.game.go.decor.*;
@@ -30,6 +31,13 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     private boolean diseased = false;
     private long diseaseStartTime = 0;
 
+    private int insecticideCount = 0;
+
+    public int getInsecticideCount() {
+        return insecticideCount;
+    }
+
+
     public Gardener(Game game, Position position) {
         super(game, position);
         this.direction = Direction.DOWN;
@@ -43,16 +51,31 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
         diseaseStartTime = System.currentTimeMillis();
         diseaseLevel++;
     }
+    public int getDiseaseLevel() {
+        return diseaseLevel;
+    }
 
     @Override
     public void pickUp(Bonus bonus) {
         if (bonus instanceof EnergyBoost) {
-            energy = energy + game.configuration().energyBoost();
+            if (energy + game.configuration().energyBoost() >= 100){
+                energy = 101;
+            }
+            else{
+                energy += game.configuration().energyBoost();
+            }
             System.out.println("Energy boosted picked up!");
+            bonus.remove();
         }
         if (bonus instanceof PoisonedApple) {
             diseaseStarted();
             System.out.println("Poisoned apple eaten!");
+            bonus.remove();
+        }
+        if (bonus instanceof InsecticideBomb) {
+            insecticideCount++;
+            System.out.println("InsecticideBomb picked up!");
+            bonus.remove();
         }
     }
 
