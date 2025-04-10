@@ -63,11 +63,10 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     @Override
     public void pickUp(Bonus bonus) {
         if (bonus instanceof EnergyBoost) {
-            if (energy + game.configuration().energyBoost() >= 100){
+            int boost = game.configuration().energyBoost();
+            energy += boost;
+            if (energy > 100) {
                 energy = 101;
-            }
-            else{
-                energy += game.configuration().energyBoost();
             }
             System.out.println("Energy boosted picked up!");
             bonus.remove();
@@ -139,12 +138,12 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
             }
         }
         else {
-            long nowMillis = System.currentTimeMillis();
-            if (nowMillis - EnergyRecoveryTime >= game.configuration().energyRecoverDuration()) {
+            long time = System.currentTimeMillis();
+            if (time - EnergyRecoveryTime >= game.configuration().energyRecoverDuration()) {
                 if (energy < maxEnergy) {
                     energy += 1;
                 }
-                EnergyRecoveryTime = nowMillis;
+                EnergyRecoveryTime = time;
             }
         }
         moveRequested = false;
