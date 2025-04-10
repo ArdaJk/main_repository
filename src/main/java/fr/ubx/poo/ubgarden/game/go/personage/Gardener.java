@@ -33,6 +33,11 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
 
     private int insecticideCount = 0;
 
+    private final int maxEnergy = 100;
+
+    private long EnergyRecoveryTime = 0;
+
+
     public int getInsecticideCount() {
         return insecticideCount;
     }
@@ -131,6 +136,15 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
                 } else if (ground instanceof Land) {
                     energy = energy - 2*game.configuration().diseaseLevel();
                 }
+            }
+        }
+        else {
+            long nowMillis = System.currentTimeMillis();
+            if (nowMillis - EnergyRecoveryTime >= game.configuration().energyRecoverDuration()) {
+                if (energy < maxEnergy) {
+                    energy += 1;
+                }
+                EnergyRecoveryTime = nowMillis;
             }
         }
         moveRequested = false;
