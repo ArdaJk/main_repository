@@ -35,7 +35,7 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
 
     private final int maxEnergy = 100;
 
-    private long EnergyRecoveryTime = 0;
+    private long EnergyRecoveryTime = 1;
 
 
     public int getInsecticideCount() {
