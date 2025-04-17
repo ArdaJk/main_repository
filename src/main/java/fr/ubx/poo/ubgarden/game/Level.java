@@ -47,9 +47,9 @@ public class Level implements Map {
                         decors.put(position, grassApple);
                         break;
                     case Carrots:
-                        Decor land = new Land(position);
-                        land.setBonus(new CollectCarrot(position, land));
-                        decors.put(position, land);
+                        Decor landWithCarrots = new Land(position);
+                        landWithCarrots.setBonus(new CollectCarrot(position, landWithCarrots));
+                        decors.put(position, landWithCarrots);
                         break;
                     case PoisonedApple:
                         Decor grassPoisonedApple = new Grass(position);

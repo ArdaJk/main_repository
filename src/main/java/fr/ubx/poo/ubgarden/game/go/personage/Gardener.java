@@ -11,10 +11,7 @@ import fr.ubx.poo.ubgarden.game.go.GameObject;
 import fr.ubx.poo.ubgarden.game.go.Movable;
 import fr.ubx.poo.ubgarden.game.go.PickupVisitor;
 import fr.ubx.poo.ubgarden.game.go.WalkVisitor;
-import fr.ubx.poo.ubgarden.game.go.bonus.Bonus;
-import fr.ubx.poo.ubgarden.game.go.bonus.InsecticideBomb;
-import fr.ubx.poo.ubgarden.game.go.bonus.PoisonedApple;
-import fr.ubx.poo.ubgarden.game.go.bonus.EnergyBoost;
+import fr.ubx.poo.ubgarden.game.go.bonus.*;
 import fr.ubx.poo.ubgarden.game.go.decor.*;
 import fr.ubx.poo.ubgarden.game.go.decor.ground.Grass;
 import fr.ubx.poo.ubgarden.game.go.decor.ground.Land;
@@ -23,6 +20,7 @@ import fr.ubx.poo.ubgarden.game.launcher.GameLauncher;
 public class Gardener extends GameObject implements Movable, PickupVisitor, WalkVisitor {
 
     private int energy;
+
     //diseaseLevel is variable so we should create an attribute for it in order to change its value
     private int diseaseLevel;
     private Direction direction;
@@ -32,6 +30,9 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     private long diseaseStartTime = 0;
 
     private int insecticideCount = 0;
+
+    //We create this attribut to test if all the carrots are collected
+    private int carrotsCollected = 0;
 
     private final int maxEnergy = 100;
 
@@ -68,7 +69,7 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
             if (energy > 100) {
                 energy = 101;
             }
-            System.out.println("Energy boosted picked up!");
+            System.out.println("Energy boost picked up!");
             bonus.remove();
         }
         if (bonus instanceof PoisonedApple) {
@@ -79,6 +80,11 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
         if (bonus instanceof InsecticideBomb) {
             insecticideCount++;
             System.out.println("InsecticideBomb picked up!");
+            bonus.remove();
+        }
+        if (bonus instanceof CollectCarrot) {
+            carrotsCollected++;
+            System.out.println("Carrot collected!");
             bonus.remove();
         }
     }
@@ -127,14 +133,9 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
         }
         if (moveRequested) {
             if (canMove(direction)) {
-                Position nextPos = direction.nextPosition(getPosition());
-                Decor ground = game.world().getGrid().get(nextPos);
+                Decor ground = game.world().getGrid().get(getPosition());
+                energy = energy - ground.energyConsumptionWalk()*diseaseLevel;
                 move(direction);
-                if (ground instanceof Grass) {
-                    energy = energy - game.configuration().diseaseLevel();
-                } else if (ground instanceof Land) {
-                    energy = energy - 2*game.configuration().diseaseLevel();
-                }
             }
         }
         else {
