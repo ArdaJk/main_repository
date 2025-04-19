@@ -31,7 +31,7 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
 
     private int insecticideCount = 0;
 
-    //We create this attribut to test if all the carrots are collected
+    //We create this attribute to test if all the carrots are collected
     private int carrotsCollected = 0;
 
     private final int maxEnergy = 100;
@@ -67,7 +67,7 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
             int boost = game.configuration().energyBoost();
             energy += boost;
             if (energy > 100) {
-                energy = 101;
+                energy = 100;
             }
             System.out.println("Energy boost picked up!");
             bonus.remove();
