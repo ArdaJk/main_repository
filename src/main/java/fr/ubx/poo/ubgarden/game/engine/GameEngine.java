@@ -160,10 +160,6 @@
 
             gardener.update(now);
 
-            if (gardener.getEnergy() < 0) {
-                gameLoop.stop();
-                showMessage("Perdu!", Color.RED);
-            }
         }
 
         public void cleanupSprites() {

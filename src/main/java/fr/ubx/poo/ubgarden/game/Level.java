@@ -10,7 +10,6 @@ import fr.ubx.poo.ubgarden.game.go.decor.Hedgehog;
 import fr.ubx.poo.ubgarden.game.go.decor.ground.Land;
 import fr.ubx.poo.ubgarden.game.launcher.MapEntity;
 import fr.ubx.poo.ubgarden.game.launcher.MapLevel;
-import javafx.geometry.Pos;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -74,10 +73,7 @@ public class Level implements Map {
                         decors.put(position, new NestHornet(position));
                         break;
                     case DoorNextClosed:
-                        decors.put(position, new DoorClosed(position));
-                        break;
-                    case DoorNextOpened:
-                        decors.put(position, new DoorOpened(position));
+                        decors.put(position, new Door(position));
                         break;
                     case Hedgehog:
                         decors.put(position, new Hedgehog(position));
@@ -126,7 +122,7 @@ public class Level implements Map {
     public Position doorPosition() {
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++) {
-                if (this.get(new Position(level, i, j)) instanceof DoorClosed) {
+                if (this.get(new Position(level, i, j)) instanceof Door) {
                     return new Position(level,i,j);
             }
         }

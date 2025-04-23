@@ -89,8 +89,10 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
             if (carrotsCollected == game.world().getGrid().getCarrots()) {
                 System.out.println("All Carrots Collected");
                 Position doorPos = game.world().getGrid().doorPosition();
-                game.world().getGrid().set(doorPos,new DoorOpened(doorPos));
                 System.out.println(game.world().getGrid().values());
+                Door door = (Door) game.world().getGrid().get(doorPos);
+                door.setClosed(false);
+                door.setModified(true);
             }
         }
     }
@@ -118,7 +120,9 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
             if (nextObj != null && !nextObj.walkableBy(this)) {
                 return false;
             }
-
+            if (getEnergy() <= 0) {
+                return false;
+            }
             return true;
     }
 

@@ -41,10 +41,8 @@ public final class SpriteFactory {
             return new Sprite(layer, factory.get(NESTWASP),gameObject);
         if (gameObject instanceof NestHornet)
             return new Sprite(layer, factory.get(NESTHORNET),gameObject);
-        if (gameObject instanceof DoorClosed)
-            return new Sprite(layer,factory.get(DOOR_CLOSED),gameObject);
-        if (gameObject instanceof DoorOpened)
-            return new Sprite(layer, factory.get(DOOR_OPENED),gameObject);
+        if (gameObject instanceof Door)
+            return new SpriteDoor(layer,factory.get(DOOR_CLOSED),gameObject);
         if (gameObject instanceof Hedgehog)
             return new Sprite(layer, factory.get(HEDGEHOG),gameObject);
         throw new RuntimeException("Unsupported sprite for decor " + gameObject);
