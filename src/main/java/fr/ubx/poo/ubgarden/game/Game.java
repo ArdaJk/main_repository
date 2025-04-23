@@ -45,5 +45,4 @@ public class Game {
     public void clearSwitchLevel() {
         switchLevelRequested = false;
     }
-
 }

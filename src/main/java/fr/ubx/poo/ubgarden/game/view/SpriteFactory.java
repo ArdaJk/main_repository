@@ -19,7 +19,6 @@ import static fr.ubx.poo.ubgarden.game.view.ImageResource.*;
 
 
 public final class SpriteFactory {
-
     public static Sprite create(Pane layer, GameObject gameObject) {
         ImageResourceFactory factory = ImageResourceFactory.getInstance();
         if (gameObject instanceof Grass)

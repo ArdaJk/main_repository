@@ -10,6 +10,7 @@ import fr.ubx.poo.ubgarden.game.go.decor.Hedgehog;
 import fr.ubx.poo.ubgarden.game.go.decor.ground.Land;
 import fr.ubx.poo.ubgarden.game.launcher.MapEntity;
 import fr.ubx.poo.ubgarden.game.launcher.MapLevel;
+import javafx.geometry.Pos;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,8 +21,9 @@ public class Level implements Map {
 
     private final int level;
     private final int width;
-
     private final int height;
+
+    private int carrotsToCollect = 0;
 
     private final java.util.Map<Position, Decor> decors = new HashMap<>();
 
@@ -50,6 +52,7 @@ public class Level implements Map {
                         Decor landWithCarrots = new Land(position);
                         landWithCarrots.setBonus(new CollectCarrot(position, landWithCarrots));
                         decors.put(position, landWithCarrots);
+                        carrotsToCollect++;
                         break;
                     case PoisonedApple:
                         Decor grassPoisonedApple = new Grass(position);
@@ -99,6 +102,10 @@ public class Level implements Map {
         return decors.get(position);
     }
 
+    public void set(Position position, Decor decor) {
+        decors.put(position, decor);
+    }
+
     public Collection<Decor> values() {
         return decors.values();
     }
@@ -108,6 +115,22 @@ public class Level implements Map {
     public boolean inside(Position position) {
         return position.x() >= 0 && position.x() < width &&
                 position.y() >= 0 && position.y() < height;
+    }
+
+    @Override
+    public int getCarrots() {
+        return carrotsToCollect;
+    }
+
+    @Override
+    public Position doorPosition() {
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++) {
+                if (this.get(new Position(level, i, j)) instanceof DoorClosed) {
+                    return new Position(level,i,j);
+            }
+        }
+        return null;
     }
 
 
