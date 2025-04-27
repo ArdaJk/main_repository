@@ -57,6 +57,7 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
         diseaseStartTime = System.currentTimeMillis();
         diseaseLevel++;
     }
+
     public int getDiseaseLevel() {
         return diseaseLevel;
     }

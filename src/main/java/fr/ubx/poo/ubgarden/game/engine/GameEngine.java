@@ -7,11 +7,13 @@
     import fr.ubx.poo.ubgarden.game.Direction;
     import fr.ubx.poo.ubgarden.game.Game;
     import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
+    import fr.ubx.poo.ubgarden.game.go.personage.Wasp;
     import fr.ubx.poo.ubgarden.game.view.*;
     import javafx.animation.AnimationTimer;
     import javafx.application.Platform;
     import javafx.scene.Group;
     import javafx.scene.Scene;
+    import javafx.scene.image.Image;
     import javafx.scene.layout.Pane;
     import javafx.scene.layout.StackPane;
     import javafx.scene.paint.Color;
@@ -89,7 +91,7 @@
                 public void handle(long now) {
                     checkLevel();
 
-                    // Check keyboard actions
+                    // Check keyboard actionsolur g
                     processInput();
 
                     // Do actions
@@ -157,9 +159,15 @@
 
         private void update(long now) {
             game.world().getGrid().values().forEach(decor -> decor.update(now));
-
             gardener.update(now);
-
+            for (int i=0; i<game.getNbBugs(); i++) {
+                if (game.getBugs().get(i) instanceof Wasp && !(((Wasp) game.getBugs().get(i)).getHasSprite())) {
+                    sprites.add(new SpriteWasp(layer, (Wasp) game.getBugs().get(i)));
+                    //Now we created the sprite
+                    ((Wasp) game.getBugs().get(i)).setHasSprite(true);
+                    render();
+                }
+            }
         }
 
         public void cleanupSprites() {

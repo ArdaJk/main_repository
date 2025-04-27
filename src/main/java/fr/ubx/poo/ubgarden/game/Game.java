@@ -1,6 +1,10 @@
 package fr.ubx.poo.ubgarden.game;
 
+import fr.ubx.poo.ubgarden.game.go.GameObject;
 import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Game {
@@ -8,9 +12,12 @@ public class Game {
     private final Configuration configuration;
     private final World world;
     private final Gardener gardener;
+    private List<GameObject> bugs = new ArrayList<>();
+    private int nbBugs = 0;
 
     private boolean switchLevelRequested = false;
     private int switchLevel;
+
     public Game(World world, Configuration configuration, Position gardenerPosition) {
         this.configuration = configuration;
         this.world = world;
@@ -45,4 +52,18 @@ public class Game {
     public void clearSwitchLevel() {
         switchLevelRequested = false;
     }
+
+    public void addBug(GameObject bug) {
+        bugs.add(bug);
+        nbBugs++;
+    }
+
+    public List<GameObject> getBugs() {
+        return bugs;
+    }
+
+    public int getNbBugs() {
+        return nbBugs;
+    }
+
 }
