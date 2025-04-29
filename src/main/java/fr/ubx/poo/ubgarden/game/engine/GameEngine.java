@@ -160,6 +160,12 @@
         private void update(long now) {
             game.world().getGrid().values().forEach(decor -> decor.update(now));
             gardener.update(now);
+            if (game.getNbBugs()>0) {
+                for (int i=0; i<game.getNbBugs(); i++) {
+                    game.getBugs().get(i).update(now);
+                }
+            }
+
             for (int i=0; i<game.getNbBugs(); i++) {
                 if (game.getBugs().get(i) instanceof Wasp && !(((Wasp) game.getBugs().get(i)).getHasSprite())) {
                     sprites.add(new SpriteWasp(layer, (Wasp) game.getBugs().get(i)));

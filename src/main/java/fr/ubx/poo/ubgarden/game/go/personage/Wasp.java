@@ -62,7 +62,9 @@ public class Wasp extends GameObject implements Movable {
 
     @Override
     public void update(long now) {
-        super.update(now);
+        if (canMove(direction)) {
+            move(direction);
+        }
     }
 
     public void setHasSprite(Boolean hasSprite) {

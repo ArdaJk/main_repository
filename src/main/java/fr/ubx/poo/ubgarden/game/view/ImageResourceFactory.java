@@ -57,6 +57,4 @@ public class ImageResourceFactory {
     private static class LoadSingleton {
         static final ImageResourceFactory INSTANCE = new ImageResourceFactory();
     }
-
-
 }

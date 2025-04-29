@@ -20,11 +20,6 @@ public class SpriteWasp extends Sprite {
         setImage(image);
     }
 
-    @Override
-    public Position getPosition() {
-        return super.getPosition();
-    }
-
     public Image getImage(Direction direction) {
         return ImageResourceFactory.getInstance().getWasp(direction);
     }
