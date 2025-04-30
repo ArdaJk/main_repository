@@ -106,6 +106,7 @@ public class GameLauncher {
         Map level = new Level(game, 1, mapLevel);
         world.put(1, level);
         return game;
+
     }
 
     public Game load() {

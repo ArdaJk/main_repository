@@ -5,6 +5,7 @@
     package fr.ubx.poo.ubgarden.game.engine;
 
     import fr.ubx.poo.ubgarden.game.Direction;
+    import fr.ubx.poo.ubgarden.game.Position;
     import fr.ubx.poo.ubgarden.game.Game;
     import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
     import fr.ubx.poo.ubgarden.game.go.personage.Hornet;
@@ -110,12 +111,17 @@
 
         private void checkLevel() {
             if (game.isSwitchLevelRequested()) {
-                // Find the new level to switch to
-                // clear all sprites
-                // change the current level
-                // Find the position of the door to reach
-                // Set the position of the gardener
-                // initialize();
+                sprites.clear();
+                cleanUpSprites.clear();
+
+                int nextLevel = game.getSwitchLevel();
+                game.world().setCurrentLevel(nextLevel);
+
+                Position newPos = game.world().getGrid().doorPosition();
+                game.getGardener().setPosition(newPos);
+
+                game.clearSwitchLevel();
+                initialize();
             }
         }
 

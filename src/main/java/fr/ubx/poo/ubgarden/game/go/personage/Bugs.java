@@ -15,7 +15,7 @@ import static fr.ubx.poo.ubgarden.game.Direction.DOWN;
 public class Bugs extends GameObject implements Movable {
     protected Direction direction;
     protected final Timer moveTimer;
-    //We added this attribut to verify if the corresponding sprite has created
+    //We added this attribute to verify if the corresponding sprite has created
     private Boolean hasSprite;
 
     public Bugs(Game game, Position position, int speed) {
