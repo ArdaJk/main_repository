@@ -10,7 +10,7 @@ import fr.ubx.poo.ubgarden.game.go.decor.Decor;
 import fr.ubx.poo.ubgarden.game.go.decor.Door;
 import fr.ubx.poo.ubgarden.game.go.decor.Tree;
 
-import static fr.ubx.poo.ubgarden.game.Direction.DOWN;
+import static fr.ubx.poo.ubgarden.game.Direction.*;
 
 public class Wasp extends GameObject implements Movable {
     private Direction direction;
@@ -21,8 +21,8 @@ public class Wasp extends GameObject implements Movable {
 
     public Wasp(Game game, Position position) {
         super(game, position);
-        this.direction = DOWN;
         System.out.println(game);
+        direction = DOWN;
         hasSprite = false;
         speed = game.configuration().waspMoveFrequency()*1000;
         moveTimer = new Timer(speed);
@@ -59,7 +59,7 @@ public class Wasp extends GameObject implements Movable {
     }
 
     public void chooseDirection() {
-        this.direction = DOWN;
+        this.direction = Direction.random();
         setModified(true);
     }
 
@@ -70,8 +70,16 @@ public class Wasp extends GameObject implements Movable {
     @Override
     public void update(long now) {
         moveTimer.update(now);
-        if (canMove(direction) && !(moveTimer.isRunning())) {
-            move(direction);
+        if (!(moveTimer.isRunning())) {
+            chooseDirection();
+            if (canMove(direction)) {
+                move(direction);
+            } else while (!canMove(direction)) {
+                chooseDirection();
+                if (canMove(direction)) {
+                    move(direction);
+                }
+            }
         }
         moveTimer.start();
     }
