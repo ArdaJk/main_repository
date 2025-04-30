@@ -3,6 +3,7 @@ package fr.ubx.poo.ubgarden.game.go.personage;
 import fr.ubx.poo.ubgarden.game.Direction;
 import fr.ubx.poo.ubgarden.game.Game;
 import fr.ubx.poo.ubgarden.game.Position;
+import fr.ubx.poo.ubgarden.game.engine.Timer;
 import fr.ubx.poo.ubgarden.game.go.GameObject;
 import fr.ubx.poo.ubgarden.game.go.Movable;
 import fr.ubx.poo.ubgarden.game.go.decor.Decor;
@@ -13,7 +14,8 @@ import static fr.ubx.poo.ubgarden.game.Direction.DOWN;
 
 public class Wasp extends GameObject implements Movable {
     private Direction direction;
-
+    private int speed;
+    private final Timer moveTimer;
     //We added this attribut to verify if the corresponding sprite has created
     private Boolean hasSprite;
 
@@ -22,10 +24,15 @@ public class Wasp extends GameObject implements Movable {
         this.direction = DOWN;
         System.out.println(game);
         hasSprite = false;
+        speed = game.configuration().waspMoveFrequency()*1000;
+        moveTimer = new Timer(speed);
+        moveTimer.start();
     }
 
     public Wasp(Position position) {
         super(position);
+        moveTimer = new Timer(speed);
+        moveTimer.start();
     }
 
     @Override
@@ -62,9 +69,11 @@ public class Wasp extends GameObject implements Movable {
 
     @Override
     public void update(long now) {
-        if (canMove(direction)) {
+        moveTimer.update(now);
+        if (canMove(direction) && !(moveTimer.isRunning())) {
             move(direction);
         }
+        moveTimer.start();
     }
 
     public void setHasSprite(Boolean hasSprite) {
