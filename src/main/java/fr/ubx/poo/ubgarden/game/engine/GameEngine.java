@@ -7,6 +7,7 @@
     import fr.ubx.poo.ubgarden.game.Direction;
     import fr.ubx.poo.ubgarden.game.Game;
     import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
+    import fr.ubx.poo.ubgarden.game.go.personage.Hornet;
     import fr.ubx.poo.ubgarden.game.go.personage.Wasp;
     import fr.ubx.poo.ubgarden.game.view.*;
     import javafx.animation.AnimationTimer;
@@ -171,6 +172,11 @@
                     sprites.add(new SpriteWasp(layer, (Wasp) game.getBugs().get(i)));
                     //Now we created the sprite
                     ((Wasp) game.getBugs().get(i)).setHasSprite(true);
+                    render();
+                } else if (game.getBugs().get(i) instanceof Hornet && !(((Hornet) game.getBugs().get(i)).getHasSprite())) {
+                    sprites.add(new SpriteHornet(layer, (Hornet) game.getBugs().get(i)));
+                    //Now we created the sprite
+                    ((Hornet) game.getBugs().get(i)).setHasSprite(true);
                     render();
                 }
             }
