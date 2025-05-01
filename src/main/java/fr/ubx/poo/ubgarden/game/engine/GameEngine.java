@@ -161,6 +161,12 @@
         private void update(long now) {
             game.world().getGrid().values().forEach(decor -> decor.update(now));
             gardener.update(now);
+
+            if (gardener.isDeath()) {
+                gameLoop.stop();
+                showMessage("Perdu!", Color.RED);
+            }
+
             if (game.getNbBugs()>0) {
                 for (int i=0; i<game.getNbBugs(); i++) {
                     game.getBugs().get(i).update(now);

@@ -37,7 +37,7 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     private final int maxEnergy = 100;
 
     private long EnergyRecoveryTime = 1;
-
+    private boolean death = false;
 
     public int getInsecticideCount() {
         return insecticideCount;
@@ -162,10 +162,19 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     }
 
     public void hurt(int damage) {
+        if (damage >= energy) {
+            death = true;
+        } else {
+            this.energy = energy - damage;
+        }
     }
 
     public void hurt() {
         hurt(1);
+    }
+
+    public boolean isDeath() {
+        return death;
     }
 
     public Direction getDirection() {

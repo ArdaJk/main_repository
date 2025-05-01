@@ -6,9 +6,13 @@ import fr.ubx.poo.ubgarden.game.Position;
 import fr.ubx.poo.ubgarden.game.engine.Timer;
 import fr.ubx.poo.ubgarden.game.go.GameObject;
 import fr.ubx.poo.ubgarden.game.go.Movable;
+import fr.ubx.poo.ubgarden.game.go.bonus.InsecticideBomb;
 import fr.ubx.poo.ubgarden.game.go.decor.Decor;
 import fr.ubx.poo.ubgarden.game.go.decor.Door;
 import fr.ubx.poo.ubgarden.game.go.decor.Tree;
+
+import java.util.Collection;
+import java.util.HashMap;
 
 import static fr.ubx.poo.ubgarden.game.Direction.DOWN;
 
@@ -24,12 +28,14 @@ public class Bugs extends GameObject implements Movable {
         hasSprite = false;
         moveTimer = new Timer(speed);
         moveTimer.start();
+        createBomb();
     }
 
     public Bugs(Position position,int speed) {
         super(position);
         moveTimer = new Timer(speed);
         moveTimer.start();
+        createBomb();
     }
 
     @Override
@@ -89,5 +95,12 @@ public class Bugs extends GameObject implements Movable {
         return hasSprite;
     }
 
-
+    public void createBomb() {
+        java.util.Map<Position, Decor> decorsWithoutBonus = new HashMap<>();
+        for (Decor decor : game.world().getGrid().values()) {
+            if (decor.getBonus() == null && decor.walkableBy(game.getGardener())) {
+                System.out.println(decor);
+            }
+        }
+    }
 }
