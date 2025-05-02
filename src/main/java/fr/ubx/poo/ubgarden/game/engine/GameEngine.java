@@ -6,6 +6,7 @@
 
     import fr.ubx.poo.ubgarden.game.Direction;
     import fr.ubx.poo.ubgarden.game.Game;
+    import fr.ubx.poo.ubgarden.game.go.bonus.InsecticideBomb;
     import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
     import fr.ubx.poo.ubgarden.game.go.personage.Hornet;
     import fr.ubx.poo.ubgarden.game.go.personage.Wasp;
@@ -170,6 +171,14 @@
             if (game.getNbBugs()>0) {
                 for (int i=0; i<game.getNbBugs(); i++) {
                     game.getBugs().get(i).update(now);
+                }
+            }
+
+            for (var decor : game.world().getGrid().values()) {
+                if (decor.getBonus() instanceof InsecticideBomb &&
+                        sprites.stream().noneMatch(s -> s.getGameObject() == decor.getBonus())) {
+                    sprites.add(SpriteFactory.create(layer, decor.getBonus()));
+                    decor.getBonus().setModified(true);
                 }
             }
 

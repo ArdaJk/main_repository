@@ -11,8 +11,7 @@ import fr.ubx.poo.ubgarden.game.go.decor.Decor;
 import fr.ubx.poo.ubgarden.game.go.decor.Door;
 import fr.ubx.poo.ubgarden.game.go.decor.Tree;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 import static fr.ubx.poo.ubgarden.game.Direction.DOWN;
 
@@ -99,8 +98,17 @@ public class Bugs extends GameObject implements Movable {
         java.util.Map<Position, Decor> decorsWithoutBonus = new HashMap<>();
         for (Decor decor : game.world().getGrid().values()) {
             if (decor.getBonus() == null && decor.walkableBy(game.getGardener())) {
-                System.out.println(decor);
+                decorsWithoutBonus.put(decor.getPosition(), decor);
             }
+        }
+        if (!decorsWithoutBonus.isEmpty()) {
+            List<Decor> eligibleDecors = new ArrayList<>(decorsWithoutBonus.values());
+            Random rand = new Random();
+            Decor randomDecor = eligibleDecors.get(rand.nextInt(eligibleDecors.size()));
+            Position pos = randomDecor.getPosition();
+            Decor targetDecor = game.world().getGrid().get(pos);
+            targetDecor.setBonus(new InsecticideBomb(pos, targetDecor));
+            targetDecor.getBonus().setModified(true);
         }
     }
 }
