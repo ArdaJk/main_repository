@@ -8,6 +8,7 @@ et on a ajouté quand un bogue est crée, on l'a ajouté dans cette liste pour b
 
 Comme les frelons se déplacent comme les guêpes sauf qu'elles piqueent 2 fois et plus lente, on 
 a crée une nouvelle classe 'bugs' pour implementer les méthods communs et les attributs.
+Cette classe est abstraite parce que ce n'est pas possible de creer un objet bug sans specifier.
 
 On a crée des nouvelles classes "sprite" pour les bugs pour gérèr l'affichage des bogues.
 On a hérité de la classe 'sprite' dans tous nos classes qu'on a crée pour l'affichage des bogues.

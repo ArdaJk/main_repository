@@ -15,25 +15,31 @@ import java.util.*;
 
 import static fr.ubx.poo.ubgarden.game.Direction.DOWN;
 
-public class Bugs extends GameObject implements Movable {
+public abstract class Bugs extends GameObject implements Movable {
     protected Direction direction;
     protected final Timer moveTimer;
     //We added this attribut to verify if the corresponding sprite has created
     private Boolean hasSprite;
 
-    public Bugs(Game game, Position position, int speed) {
+    private int life;
+    private int damage;
+
+    public Bugs(Game game, Position position, int speed, int life, int damage) {
         super(game, position);
         direction = DOWN;
         hasSprite = false;
         moveTimer = new Timer(speed);
         moveTimer.start();
+        this.life = life;
+        this.damage = damage;
         createBomb();
     }
 
-    public Bugs(Position position,int speed) {
+    public Bugs(Position position,int speed,int life) {
         super(position);
         moveTimer = new Timer(speed);
         moveTimer.start();
+        this.life = life;
         createBomb();
     }
 
@@ -70,7 +76,16 @@ public class Bugs extends GameObject implements Movable {
     }
 
     @Override
+    public void remove() {
+        super.remove();
+    }
+
+    @Override
     public void update(long now) {
+        if (getPosition().equals(game.getGardener().getPosition())) {
+            System.out.println("Gardener has been hit!");
+            game.getGardener().hurt(this.damage);
+        }
         moveTimer.update(now);
         if (!(moveTimer.isRunning())) {
             chooseDirection();
@@ -110,5 +125,9 @@ public class Bugs extends GameObject implements Movable {
             targetDecor.setBonus(new InsecticideBomb(pos, targetDecor));
             targetDecor.getBonus().setModified(true);
         }
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 }

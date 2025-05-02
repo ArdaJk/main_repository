@@ -10,7 +10,8 @@ import fr.ubx.poo.ubgarden.game.go.Movable;
 import static fr.ubx.poo.ubgarden.game.Direction.DOWN;
 
 public class Hornet extends Bugs implements Movable {
+    private static final int DAMAGE = 30;
     public Hornet(Game game, Position position) {
-        super(game, position,game.configuration().hornetMoveFrequency()*1000);
+        super(game, position,game.configuration().hornetMoveFrequency()*1000,2,DAMAGE);
     }
 }

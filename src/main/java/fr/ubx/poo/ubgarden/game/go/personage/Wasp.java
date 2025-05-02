@@ -13,7 +13,8 @@ import fr.ubx.poo.ubgarden.game.go.decor.Tree;
 import static fr.ubx.poo.ubgarden.game.Direction.*;
 
 public class Wasp extends Bugs implements Movable {
+    private static final int DAMAGE = 20;
     public Wasp(Game game, Position position) {
-        super(game, position,game.configuration().waspMoveFrequency()*1000);
+        super(game, position,game.configuration().waspMoveFrequency()*1000,1,DAMAGE);
     }
 }
