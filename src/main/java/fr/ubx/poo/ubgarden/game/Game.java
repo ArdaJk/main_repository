@@ -58,6 +58,11 @@ public class Game {
         nbBugs++;
     }
 
+    public void removeBug(GameObject bug) {
+        bugs.remove(bug);
+        nbBugs--;
+    }
+
     public List<GameObject> getBugs() {
         return bugs;
     }

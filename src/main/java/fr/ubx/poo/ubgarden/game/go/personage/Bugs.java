@@ -16,13 +16,15 @@ import java.util.*;
 import static fr.ubx.poo.ubgarden.game.Direction.DOWN;
 
 public abstract class Bugs extends GameObject implements Movable {
+
     protected Direction direction;
     protected final Timer moveTimer;
     //We added this attribut to verify if the corresponding sprite has created
     private Boolean hasSprite;
 
-    private int life;
-    private int damage;
+    protected int life;
+    protected int damage;
+    protected boolean hurtByBomb = false;
 
     public Bugs(Game game, Position position, int speed, int life, int damage) {
         super(game, position);
@@ -78,27 +80,56 @@ public abstract class Bugs extends GameObject implements Movable {
     @Override
     public void remove() {
         super.remove();
+        game.removeBug(this);
+    }
+
+    public void hurt() {
+        this.life--;
     }
 
     @Override
     public void update(long now) {
+        if (this.life <= 0) {
+            remove();
+            return;
+        }
+
+        if (hurtByBomb) {
+            hurt();
+            if (game.world().getGrid().get(getPosition()).getBonus() instanceof InsecticideBomb bomb && !bomb.isUsed()) {
+                bomb.setUsed(true);
+                bomb.setModified(true);
+            }
+            hurtByBomb = false;
+            return;
+        }
+
+        if (game.world().getGrid().get(getPosition()).getBonus() instanceof InsecticideBomb bomb && !bomb.isUsed()) {
+            hurtByBomb = true;
+            return;
+        }
+
         if (getPosition().equals(game.getGardener().getPosition())) {
             System.out.println("Gardener has been hit!");
             game.getGardener().hurt(this.damage);
+            this.hurt();
         }
+
         moveTimer.update(now);
-        if (!(moveTimer.isRunning())) {
+        if (!moveTimer.isRunning()) {
             chooseDirection();
             if (canMove(direction)) {
                 move(direction);
-            } else while (!canMove(direction)) {
-                chooseDirection();
-                if (canMove(direction)) {
-                    move(direction);
+            } else {
+                while (!canMove(direction)) {
+                    chooseDirection();
+                    if (canMove(direction)) {
+                        move(direction);
+                    }
                 }
             }
+            moveTimer.start();
         }
-        moveTimer.start();
     }
 
     public void setHasSprite(Boolean hasSprite) {
