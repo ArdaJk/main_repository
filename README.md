@@ -22,3 +22,7 @@ aux classes bogues, et comme la vitesse est donnée en seconde, on les a multipl
 Pour nos personnages, bonus et decors on a hérité de la classe 'GameObject' parce que cette classe contient les implementations
 des fonctions comme setModified, remove etc. qu'on va utiliser pour intéragir. (ex/ on n'a pas besoin d'implementer la fonction setModified dans la classe Wasp)
 
+On a utilise la methode "checkCollision" de la classe GameEngine seulement pour le "wasp" 
+car on avait deja ecrit le cas de collision pour le "hornet" dans sa methode update avant qu'on a 
+vu qu'il existe une methode checkCollision et on pense que ajouter ce cas dans update est
+efficace donc on n'a pas le modifie

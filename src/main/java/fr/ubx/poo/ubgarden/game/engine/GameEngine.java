@@ -6,7 +6,10 @@
 
     import fr.ubx.poo.ubgarden.game.Direction;
     import fr.ubx.poo.ubgarden.game.Game;
+    import fr.ubx.poo.ubgarden.game.go.GameObject;
     import fr.ubx.poo.ubgarden.game.go.bonus.InsecticideBomb;
+    import fr.ubx.poo.ubgarden.game.go.decor.Hedgehog;
+    import fr.ubx.poo.ubgarden.game.go.personage.Bugs;
     import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
     import fr.ubx.poo.ubgarden.game.go.personage.Hornet;
     import fr.ubx.poo.ubgarden.game.go.personage.Wasp;
@@ -122,6 +125,13 @@
 
         private void checkCollision() {
             // Check a collision between the gardener and a wasp or an hornet
+            for (GameObject bug : game.getBugs()) {
+                Bugs realBug = (Bugs) bug;
+                if (realBug.getPosition().equals(game.getGardener().getPosition()) && realBug instanceof Wasp) {
+                    gardener.hurt(realBug.getDamage());
+                    realBug.hurt();
+                }
+            }
         }
 
         private void processInput() {
@@ -167,6 +177,13 @@
                 gameLoop.stop();
                 showMessage("Perdu!", Color.RED);
             }
+
+            if (game.world().getGrid().get(gardener.getPosition()) instanceof Hedgehog) {
+                gameLoop.stop();
+                showMessage("Gagné!",Color.GREEN);
+            }
+
+            checkCollision();
 
             if (game.getNbBugs()>0) {
                 for (int i=0; i<game.getNbBugs(); i++) {
