@@ -40,13 +40,31 @@ public class Hornet extends Bugs implements Movable {
         }
 
         if (getPosition().equals(game.getGardener().getPosition()) && !attackTimer.isRunning()) {
-            System.out.println("Gardener has been hit!");
-            game.getGardener().hurt(this.damage);
-            this.hurt();
-            attackTimer.start();
-            if (this.life <= 0) {
+            if (game.getGardener().getInsecticideCount() == 1) {
+                System.out.println("Gardener has been hit!");
+                game.getGardener().hurt(this.damage);
+                this.hurt();
+                game.getGardener().useBomb();
+                attackTimer.start();
+                if (this.life <= 0) {
+                    remove();
+                    return;
+                }
+            } else if (game.getGardener().getInsecticideCount() > 1) {
+                this.hurt();
+                this.hurt();
+                game.getGardener().useBomb();
+                game.getGardener().useBomb();
                 remove();
-                return;
+            } else {
+                System.out.println("Gardener has been hit!");
+                game.getGardener().hurt(this.damage);
+                this.hurt();
+                attackTimer.start();
+                if (this.life <= 0) {
+                    remove();
+                    return;
+                }
             }
         }
 

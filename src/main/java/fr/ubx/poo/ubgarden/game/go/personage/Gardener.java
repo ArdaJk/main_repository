@@ -180,4 +180,8 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     public Direction getDirection() {
         return direction;
     }
+
+    public void useBomb() {
+        insecticideCount--;
+    }
 }

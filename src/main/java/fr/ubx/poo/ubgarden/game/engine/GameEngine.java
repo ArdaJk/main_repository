@@ -128,8 +128,13 @@
             for (GameObject bug : game.getBugs()) {
                 Bugs realBug = (Bugs) bug;
                 if (realBug.getPosition().equals(game.getGardener().getPosition()) && realBug instanceof Wasp) {
-                    gardener.hurt(realBug.getDamage());
-                    realBug.hurt();
+                    if (gardener.getInsecticideCount() == 0) {
+                        gardener.hurt(realBug.getDamage());
+                        realBug.hurt();
+                    } else {
+                        realBug.hurt();
+                        gardener.useBomb();
+                    }
                 }
             }
         }
