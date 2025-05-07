@@ -26,3 +26,10 @@ On a utilise la methode "checkCollision" de la classe GameEngine seulement pour 
 car on avait deja ecrit le cas de collision pour le "hornet" dans sa methode update avant qu'on a 
 vu qu'il existe une methode checkCollision et on pense que ajouter ce cas dans update est
 efficace donc on n'a pas le modifie
+
+Enfin, on a fait le système de passage par les portes de la manière suivante :
+Si le joueur essaie de passer par une porte non marquée comme "précédente" (!door.isPrev()), il accède au level suivant.
+À l’inverse, s’il passe par une porte marquée comme "précédente" (door.isPrev()), il revient au level précédent.
+Et si le niveau cible existe, le jeu lance la transition vers ce level via requestSwitchLevel.
+
+
