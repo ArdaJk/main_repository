@@ -24,4 +24,6 @@ public interface Map {
 
     //The method which returns the position of the door
     Position doorPosition();
+
+    Position doorPrevPosition();
 }

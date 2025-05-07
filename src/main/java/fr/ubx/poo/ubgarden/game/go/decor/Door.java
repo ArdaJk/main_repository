@@ -8,14 +8,14 @@ public class Door extends Decor {
     public Door(Position position) {
         super(position);
     }
-    private boolean isPassed = false;
+    private boolean prev = false;
 
-    public boolean isPassed() {
-        return isPassed;
+    public boolean isPrev() {
+        return prev;
     }
 
-    public void setPassed(boolean passed) {
-        isPassed = passed;
+    public void setPrev(boolean prev) {
+        this.prev = prev;
     }
 
     public boolean isClosed() {

@@ -7,11 +7,10 @@ import fr.ubx.poo.ubgarden.game.go.decor.Hedgehog;
 import fr.ubx.poo.ubgarden.game.go.decor.ground.Land;
 import fr.ubx.poo.ubgarden.game.launcher.MapEntity;
 import fr.ubx.poo.ubgarden.game.launcher.MapLevel;
+import javafx.geometry.Pos;
 
 import java.util.Collection;
 import java.util.HashMap;
-
-import static fr.ubx.poo.ubgarden.game.launcher.MapEntity.DoorNextOpened;
 
 
 public class Level implements Map {
@@ -87,6 +86,7 @@ public class Level implements Map {
                     case DoorPrevOpened:
                         Door doorPrevOpened = new Door(position);
                         doorPrevOpened.setClosed(false);
+                        doorPrevOpened.setPrev(true);
                         decors.put(position,doorPrevOpened);
                         break;
                     default:
@@ -133,10 +133,20 @@ public class Level implements Map {
     public Position doorPosition() {
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++) {
-                if (this.get(new Position(level, i, j)) instanceof Door) {
+                if (this.get(new Position(level, i, j)) instanceof Door door && !door.isPrev()) {
                     return new Position(level,i,j);
             }
         }
+        return null;
+    }
+
+    public Position doorPrevPosition() {
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++) {
+                if (this.get(new Position(level, i, j)) instanceof Door door && door.isPrev()) {
+                    return new Position(level,i,j);
+                }
+            }
         return null;
     }
 

@@ -135,9 +135,8 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
             int currentLevel = game.world().currentLevel();
             int targetLevel;
 
-            if (!door.isPassed()) {
+            if (!door.isPrev()) {
                 targetLevel = currentLevel + 1;
-                door.setPassed(true);
             } else {
                 targetLevel = currentLevel - 1;
             }

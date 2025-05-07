@@ -125,7 +125,7 @@
                 cleanUpSprites.clear();
                 int nextLevel = game.getSwitchLevel();
                 game.world().setCurrentLevel(nextLevel);
-                Position newPos = game.world().getGrid().doorPosition();
+                Position newPos = game.world().getGrid().doorPrevPosition();
                 game.getGardener().setPosition(newPos);
                 game.clearSwitchLevel();
                 initialize();
