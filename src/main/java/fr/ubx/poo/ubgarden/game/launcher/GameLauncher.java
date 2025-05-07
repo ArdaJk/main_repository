@@ -129,6 +129,7 @@ public class GameLauncher {
                 height++;
             }
         }
+
         MapLevel mapLevel = new MapLevel(width,height);
 
         //We create the array read
@@ -148,6 +149,35 @@ public class GameLauncher {
         Game game = new Game(world, configuration, gardenerPosition);
         Map level = new Level(game, 1, mapLevel);
         world.put(1, level);
+        for (int k = 1; k < levelStrings.size(); k++) {
+            width = 0;
+            height = 0;
+            //Calculate the width of the level
+            for (int i=0; i<levelStrings.get(k).length(); i++) {
+                if (levelStrings.get(k).charAt(i) == EOL) {
+                    break;
+                } else {
+                    width++;
+                }
+            }
+
+            //Calculate the height of the level
+            for (int i=0; i<levelStrings.get(k).length(); i++) {
+                //EOL character is 'x'
+                if (levelStrings.get(k).charAt(i) == EOL) {
+                    height++;
+                }
+            }
+            mapLevel = new MapLevel(width,height);
+            lines = levelStrings.get(k).split("x");
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    mapLevel.set(j, i, MapEntity.fromCode(lines[i].charAt(j)));
+                }
+            }
+            level = new Level(game, k+1, mapLevel);
+            world.put(k+1, level);
+        }
         return game;
     }
 
