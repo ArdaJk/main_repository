@@ -132,12 +132,22 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
         Position nextPos = direction.nextPosition(getPosition());
         Decor next = game.world().getGrid().get(nextPos);
         if (next instanceof Door door && !door.isClosed()) {
-            int nextLevel = game.world().currentLevel() + 1;
-            if (game.hasLevel(nextLevel)) {
-                game.requestSwitchLevel(nextLevel);
+            int currentLevel = game.world().currentLevel();
+            int targetLevel;
+
+            if (!door.isPassed()) {
+                targetLevel = currentLevel + 1;
+                door.setPassed(true);
             } else {
-                System.out.println("Next level not found");
+                targetLevel = currentLevel - 1;
             }
+
+            if (game.hasLevel(targetLevel)) {
+                game.requestSwitchLevel(targetLevel);
+            } else {
+                System.out.println("Level not found");
+            }
+
             return getPosition();
         }
 

@@ -8,6 +8,15 @@ public class Door extends Decor {
     public Door(Position position) {
         super(position);
     }
+    private boolean isPassed = false;
+
+    public boolean isPassed() {
+        return isPassed;
+    }
+
+    public void setPassed(boolean passed) {
+        isPassed = passed;
+    }
 
     public boolean isClosed() {
         return closed;
