@@ -46,21 +46,22 @@ public class GameLauncher {
         StringBuilder result = new StringBuilder();
         int i = 0;
         while (i < data.length()) {
-            if (Character.isDigit(data.charAt(i))) {
-                int count = 0;
-                while (i < data.length() && Character.isDigit(data.charAt(i))) {
-                    count = count * 10 + (data.charAt(i++) - '0');
-                }
-                if (i < data.length()) {
-                    char repeated = data.charAt(i++);
-                    result.append(String.valueOf(repeated).repeat(count));
-                }
-            } else {
-                result.append(data.charAt(i++));
+            char current = data.charAt(i);
+            if (!Character.isLetter(current) && current != '+' && current != '-' && current != '>') {
+                throw new RuntimeException("Invalid character before count: '" + current + "' at index " + i);
             }
+            int count = 0;
+            i++;
+            while (i < data.length() && Character.isDigit(data.charAt(i))) {
+                count = count * 10 + (data.charAt(i++) - '0');
+            }
+            if (count == 0) count = 1;
+            result.append(String.valueOf(current).repeat(count));
         }
+
         return result.toString();
     }
+
 
     public Game load(File file) throws FileNotFoundException {
         int width = 0;
@@ -128,8 +129,6 @@ public class GameLauncher {
                 height++;
             }
         }
-
-        System.out.println("width: " + width + " height: " + height);
         MapLevel mapLevel = new MapLevel(width,height);
 
         //We create the array read
