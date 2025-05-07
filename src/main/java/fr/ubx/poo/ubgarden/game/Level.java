@@ -84,6 +84,11 @@ public class Level implements Map {
                         doorNextOpened.setClosed(false);
                         decors.put(position,doorNextOpened);
                         break;
+                    case DoorPrevOpened:
+                        Door doorPrevOpened = new Door(position);
+                        doorPrevOpened.setClosed(false);
+                        decors.put(position,doorPrevOpened);
+                        break;
                     default:
                         throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
                 }
