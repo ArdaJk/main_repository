@@ -13,6 +13,7 @@
     import fr.ubx.poo.ubgarden.game.go.personage.Gardener;
     import fr.ubx.poo.ubgarden.game.go.personage.Hornet;
     import fr.ubx.poo.ubgarden.game.go.personage.Wasp;
+    import fr.ubx.poo.ubgarden.game.Position;
     import fr.ubx.poo.ubgarden.game.view.*;
     import javafx.animation.AnimationTimer;
     import javafx.application.Platform;
@@ -120,6 +121,14 @@
                 // Find the position of the door to reach
                 // Set the position of the gardener
                 // initialize();
+                sprites.clear();
+                cleanUpSprites.clear();
+                int nextLevel = game.getSwitchLevel();
+                game.world().setCurrentLevel(nextLevel);
+                Position newPos = game.world().getGrid().doorPosition();
+                game.getGardener().setPosition(newPos);
+                game.clearSwitchLevel();
+                initialize();
             }
         }
 

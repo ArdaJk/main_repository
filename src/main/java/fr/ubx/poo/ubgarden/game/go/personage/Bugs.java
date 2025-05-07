@@ -19,7 +19,7 @@ public abstract class Bugs extends GameObject implements Movable {
 
     protected Direction direction;
     protected final Timer moveTimer;
-    //We added this attribut to verify if the corresponding sprite has created
+    //We added this attribute to verify if the corresponding sprite has created
     private Boolean hasSprite;
 
     protected int life;

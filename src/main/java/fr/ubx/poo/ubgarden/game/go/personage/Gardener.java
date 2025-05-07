@@ -131,6 +131,10 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     public Position move(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         Decor next = game.world().getGrid().get(nextPos);
+        if (next instanceof Door door && !door.isClosed()) {
+            game.requestSwitchLevel(game.getSwitchLevel() + 1);
+            return getPosition();
+        }
         setPosition(nextPos);
         if (next != null)
             next.pickUpBy(this);
