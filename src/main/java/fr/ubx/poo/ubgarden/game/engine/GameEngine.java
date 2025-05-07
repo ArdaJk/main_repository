@@ -126,8 +126,14 @@
                 game.getBugs().clear();
                 game.resetNbBugs();
                 int nextLevel = game.getSwitchLevel();
+                int curLevel = game.world().currentLevel();
                 game.world().setCurrentLevel(nextLevel);
-                Position newPos = game.world().getGrid().doorPrevPosition();
+                Position newPos;
+                if (nextLevel > curLevel) {
+                    newPos = game.world().getGrid().doorPrevPosition();
+                } else {
+                    newPos = game.world().getGrid().doorPosition();
+                }
                 game.getGardener().setPosition(newPos);
                 game.clearSwitchLevel();
                 initialize();
