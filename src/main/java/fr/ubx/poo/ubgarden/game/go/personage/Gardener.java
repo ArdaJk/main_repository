@@ -34,8 +34,6 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
     //We create this attribute to test if all the carrots are collected
     private int carrotsCollected = 0;
 
-    private final int maxEnergy = 100;
-
     private long EnergyRecoveryTime = 1;
     private boolean death = false;
 
@@ -165,6 +163,9 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
             if (canMove(direction)) {
                 Decor ground = game.world().getGrid().get(getPosition());
                 energy = energy - ground.energyConsumptionWalk()*diseaseLevel;
+                if (energy < 0) {
+                    energy = 0;
+                }
                 move(direction);
             }
         }
