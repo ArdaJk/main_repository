@@ -11,6 +11,7 @@ import fr.ubx.poo.ubgarden.game.launcher.MapLevel;
 import java.util.Collection;
 import java.util.HashMap;
 
+import static fr.ubx.poo.ubgarden.game.launcher.MapEntity.DoorNextOpened;
 
 
 public class Level implements Map {
@@ -77,6 +78,11 @@ public class Level implements Map {
                         break;
                     case Land:
                         decors.put(position, new Land(position));
+                        break;
+                    case DoorNextOpened:
+                        Door doorNextOpened = new Door(position);
+                        doorNextOpened.setClosed(false);
+                        decors.put(position,doorNextOpened);
                         break;
                     default:
                         throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
