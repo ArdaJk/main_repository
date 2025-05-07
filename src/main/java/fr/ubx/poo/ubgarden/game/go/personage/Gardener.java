@@ -171,7 +171,7 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
         else {
             long time = System.currentTimeMillis();
             if (time - EnergyRecoveryTime >= game.configuration().energyRecoverDuration()) {
-                if (energy < maxEnergy) {
+                if (energy < game.configuration().gardenerEnergy()) {
                     energy += 1;
                 }
                 EnergyRecoveryTime = time;
