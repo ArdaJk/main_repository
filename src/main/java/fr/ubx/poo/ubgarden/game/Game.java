@@ -49,6 +49,10 @@ public class Game {
         switchLevelRequested = true;
     }
 
+    public boolean hasLevel(int level) {
+        return world.getGrid(level) != null;
+    }
+
     public void clearSwitchLevel() {
         switchLevelRequested = false;
     }
