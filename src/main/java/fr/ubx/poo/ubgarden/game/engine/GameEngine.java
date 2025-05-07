@@ -123,6 +123,8 @@
                 // initialize();
                 sprites.clear();
                 cleanUpSprites.clear();
+                game.getBugs().clear();
+                game.resetNbBugs();
                 int nextLevel = game.getSwitchLevel();
                 game.world().setCurrentLevel(nextLevel);
                 Position newPos = game.world().getGrid().doorPrevPosition();

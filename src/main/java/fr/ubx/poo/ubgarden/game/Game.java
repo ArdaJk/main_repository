@@ -75,4 +75,7 @@ public class Game {
         return nbBugs;
     }
 
+    public void resetNbBugs() {
+        this.nbBugs = 0;
+    }
 }
