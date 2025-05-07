@@ -67,8 +67,8 @@ public class Gardener extends GameObject implements Movable, PickupVisitor, Walk
         if (bonus instanceof EnergyBoost) {
             int boost = game.configuration().energyBoost();
             energy += boost;
-            if (energy > 100) {
-                energy = 100;
+            if (energy > game.configuration().gardenerEnergy()) {
+                energy = game.configuration().gardenerEnergy();
             }
             System.out.println("Energy boost picked up!");
             bonus.remove();
