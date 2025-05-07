@@ -75,6 +75,9 @@ public class Level implements Map {
                     case Hedgehog:
                         decors.put(position, new Hedgehog(position));
                         break;
+                    case Land:
+                        decors.put(position, new Land(position));
+                        break;
                     default:
                         throw new RuntimeException("EntityCode " + mapEntity.name() + " not processed");
                 }

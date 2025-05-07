@@ -2,10 +2,10 @@ package fr.ubx.poo.ubgarden.game.launcher;
 
 import fr.ubx.poo.ubgarden.game.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 public class GameLauncher {
@@ -42,13 +42,33 @@ public class GameLauncher {
         return new Configuration(gardenerEnergy, energyBoost, energyRecoverDuration, diseaseLevel, diseaseDuration, waspMoveFrequency, hornetMoveFrequency);
     }
 
+    private String decompress(String data) {
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+        while (i < data.length()) {
+            if (Character.isDigit(data.charAt(i))) {
+                int count = 0;
+                while (i < data.length() && Character.isDigit(data.charAt(i))) {
+                    count = count * 10 + (data.charAt(i++) - '0');
+                }
+                if (i < data.length()) {
+                    char repeated = data.charAt(i++);
+                    result.append(String.valueOf(repeated).repeat(count));
+                }
+            } else {
+                result.append(data.charAt(i++));
+            }
+        }
+        return result.toString();
+    }
+
     public Game load(File file) throws FileNotFoundException {
         int width = 0;
         int height = 0;
-        Properties emptyConfig = new Properties();
-
+        Properties props = new Properties();
         //We are going to stock in a string the characters read
         StringBuilder sb = new StringBuilder();
+
         try {
             Reader r = new FileReader(file);
             int entity = r.read();
@@ -56,57 +76,82 @@ public class GameLauncher {
                 sb.append((char) entity);
                 entity = r.read();
             }
-            System.out.println(sb.toString());
-
-            //Calculate the width of the grid
-            for (int i=0; i<sb.length(); i++) {
-                //EOL character is 'x'
-                if (sb.charAt(i) == EOL) {
-                    break;
-                } else {
-                    width++;
-                }
-            }
-
-            //Calculate the height of the grid
-            for (int i=0; i<sb.length(); i++) {
-                //EOL character is 'x'
-                if (sb.charAt(i) == EOL) {
-                    height++;
-                }
-            }
-            System.out.println("width: " + width + " height: " + height);
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading file", e);
         }
 
-        MapLevel mapLevel = new MapLevel(width, height);
+        // Load Properties from the string content
+        try {
+            props.load(new java.io.StringReader(sb.toString()));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to parse properties", e);
+        }
+
+        boolean compression = Boolean.parseBoolean(props.getProperty("compression", "false"));
+        int levels = Integer.parseInt(props.getProperty("levels", "1"));
+
+        //Read the values from the properties format
+        int gardenerEnergy = Integer.parseInt(props.getProperty("gardenerEnergy", "100"));
+        int energyBoost = Integer.parseInt(props.getProperty("energyBoost", "50"));
+        int energyRecoverDuration = Integer.parseInt(props.getProperty("energyRecoverDuration", "1000"));
+        int diseaseLevel = Integer.parseInt(props.getProperty("diseaseLevel", "1"));
+        int diseaseDuration = Integer.parseInt(props.getProperty("diseaseDuration", "5000"));
+        int waspMoveFrequency = Integer.parseInt(props.getProperty("waspMoveFrequency", "2"));
+        int hornetMoveFrequency = Integer.parseInt(props.getProperty("hornetMoveFrequency", "1"));
+
+        List<String> levelStrings = new ArrayList<>();
+        for (int i = 1; i <= levels; i++) {
+            String levelData = props.getProperty("level" + i);
+            if (levelData == null)
+                throw new RuntimeException("Missing level" + i);
+            if (compression)
+                levelData = decompress(levelData);
+            levelStrings.add(levelData);
+        }
+
+        String level1 = levelStrings.get(0);
+
+        //Calculate the width of the first level
+        for (int i=0; i<level1.length(); i++) {
+            //EOL character is 'x'
+            if (level1.charAt(i) == EOL) {
+                break;
+            } else {
+                width++;
+            }
+        }
+
+        //Calculate the height of the first level
+        for (int i=0; i<level1.length(); i++) {
+            //EOL character is 'x'
+            if (level1.charAt(i) == EOL) {
+                height++;
+            }
+        }
+
+        System.out.println("width: " + width + " height: " + height);
+        MapLevel mapLevel = new MapLevel(width,height);
 
         //We create the array read
         MapEntity[][] loadedGrid = new MapEntity[height][width];
-        for(int i=0; i<height; i++) {
-            for (int j = 0; j<width; j++) {
-                loadedGrid[i][j] = MapEntity.fromCode(sb.charAt((i*(width+1))+j));
-            }
-        }
-
-        //We should set the grid
-        for(int i=0; i<height; i++) {
-            for (int j=0; j<width; j++) {
-                mapLevel.set(j,i,loadedGrid[i][j]);
+        String[] lines = level1.split("x");
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                mapLevel.set(j, i, MapEntity.fromCode(lines[i].charAt(j)));
             }
         }
 
         Position gardenerPosition = mapLevel.getGardenerPosition();
         if (gardenerPosition == null)
             throw new RuntimeException("Gardener not found");
-        Configuration configuration = getConfiguration(emptyConfig);
-        World world = new World(1);
+        Configuration configuration = new Configuration(gardenerEnergy, energyBoost, energyRecoverDuration,diseaseLevel,diseaseDuration,waspMoveFrequency,hornetMoveFrequency);
+        World world = new World(levels);
         Game game = new Game(world, configuration, gardenerPosition);
         Map level = new Level(game, 1, mapLevel);
         world.put(1, level);
         return game;
     }
+
 
     public Game load() {
         Properties emptyConfig = new Properties();
